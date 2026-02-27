@@ -1,0 +1,4 @@
+pdf_file,library,page_count,extract_time_sec,text_chars,text_coverage_pct,text_consensus_pct,table_count,table_structure_pct,image_count,status,error_message
+file_18.pdf,pymupdf,197,0.9170650140001726,128822,0.0,0.0,0,0.0,123,ok,
+file_19.pdf,pymupdf,105,1.6949692400000913,81117,0.0,0.0,0,0.0,89,ok,
+file_8.pdf,pymupdf,120,0.7436254870001449,123272,0.0,0.0,0,0.0,16,ok,

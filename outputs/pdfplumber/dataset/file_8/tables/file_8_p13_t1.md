@@ -1,0 +1,5 @@
+| 작성 예시 |
+| --- |
+| 구분 구성요소 비고 HDD 저장장치 Main·Memory Flash·Memory 연산장치 CPU 하드웨어 전원장치 Power Mouse 입출력장치 Keyboard Monitor Windows·10·(32-bit) KISACrypto32.dll Windows·10·(64-bit) KISACrypto64.dll 소프트웨어 운영체제 Ubuntu·Linux·20.04·(32-bit) libKISACrypto32.so Ubuntu·Linux·20.04·(64-bit) libKISACrypto64.so [암호모듈의·운영환경] 구분 소스코드 비고 -·모듈관리 -·모듈상태·출력 kisa_kcmvp_main.c 암호모듈·관리 -·동작·전·자가시험·수행 kisa_kcmvp_main.h -·모듈·버전·정보·출력 -·암호알고리즘에·대한·KCMVP·외부·인터페이스·정의 -·동작·전·자가시험 kisa_kcmvp_selftest.c 자가시험 -·무결성·시험 kisa_kcmvp_selftest.h -·조건부·자가시험 kisa_seed.c 블록암호 -·SEED·블록암호 kisa_seed.h kisa_sha.c 해시함수 -·SHA2·해시함수 kisa_sha.h kisa_hmac.c 메시지인증코드 -·HMAC_SHA2 kisa_hmac.h kisa_hashdrbg.c 난수발생기 -·Hash_DRBG·난수발생기(난수·비트열·생성) kisa_hashdrbg.h kisa_rsaes.c 공개키·암호 -·공개키·암호(키쌍·생성,·암/복호화) kisa_rsaes.h kisa_rsapss.c 전자서명 -·전자서명(키쌍·생성,·서명·생성/검증) kisa_rsapss.h kisa_dh.c 키·설정 -·키·합의(키쌍·생성,·키·합의·수행) kisa_dh.h |
+| 해설 |
+| 소프트웨어·암호모듈의·논리적·경계에·포함되는·파일에·대해·명세한다. |

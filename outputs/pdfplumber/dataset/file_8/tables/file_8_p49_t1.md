@@ -1,0 +1,4 @@
+| 윈도우·운영체제에서·사용·가능한·프로세스·보안·및·메모리·보호·기법은·다음과·같다.·아래·방법은·운영체제· 자체·또는·개발환경에서·설정을·통해·적용·가능하다. 1.·GS 2.·SEH(Structured·Exception·Handling) 3.·ASLR(Address·Space·Layout·Randomization) 4.·DEP(Data·Excution·Prevention) 윈도우에서·제공하는·프로세스·보안·및·메모리·보호·기법은·다음과·같다.·아래·방법은·운영체제·자체·또는· 개발환경에서·설정을·통해·적용·가능하다. 1.·ASLR(Address·Space·Layout·Randomization) 2.·DEP(Data·Excution·Prevention) 3.·ASCII-Armor 4.·Stack·Canary 5.·RELRO(Relocation·Read-Only) 6.·PIE(Position·Independent·Executable) 다음은·운영체제가·암호모듈의·메모리를·다른·프로세스로부터·보호하는·방법을·도식화한·것이다.· 프로세스 다른 프로세스 (KISACrypto) 메모리 KISACrypto 다른 신뢰할 수 있는 신뢰할 수 없는 프로세스 프로세스 프로세스 공간 프로세스 공간 [운영체제에·의한·암호모듈·메모리·관리] |
+| --- |
+| 해설 |
+| 소프트웨어·암호모듈의·경우·위의·예시와·같이·암호모듈이·동작하는·범용·운영체제가·암호모듈의·SSP가·다른· 프로세스로부터·간섭받지·않으며,·또한·SSP를·스스로·제어할·수·있도록·제공하는·메커니즘을·제시한다.· |

@@ -1,0 +1,12 @@
+| 분류 | 이름 | 설명 |
+| --- | --- | --- |
+|  | 기본·및·상세·설계서 |  |
+|  | 형상관리문서 |  |
+|  | 보안정책서 |  |
+|  | 시험서 |  |
+|  | 관리자·안내서 |  |
+|  | 암호모듈· 원천·소스코드 |  |
+|  | KISACrypto32.dll, KISACrypto64.dll,· libKISACrypto32.so, libKISACrypto64.so· |  |
+|  | VerificationKey |  |
+|  | IntegrityGenSoftware.exe |  |
+|  | KISACryptoTester.exe |  |

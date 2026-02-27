@@ -1,0 +1,6 @@
+| 항목 | AS04.11 |
+| --- | --- |
+| 보안요구사항 개요 | 서비스별·입력과·출력·명세 |
+| VE04.11.01 | 서비스별·입력과·출력,·인가된·역할·명세 |
+| 작성 예시 |  |
+| KISACrypto·V1.0·암호모듈이·제공하는·서비스의·목적,·기능,·연관된·API,·입력,·출력,·인가된·역할에·대한· 정보는·아래와·같다.·서비스와·연관된·상세한·입력과·출력은·암호모듈·인터페이스(VE03.04.01)에서·확인· 가능하다. 서비스·분류 API·명칭 목적/기능 입력 출력 인가된·역할 암호모듈 오류코드 초기화 KISA_Crypto_initialize() - 관리자 초기화 (성공/실패) 암호모듈· 암호모듈 관리자/ 상태확인 KISA_Crypto_getState() 현재· - 상태값 사용자 상태·확인 암호모듈·이름· 암호모듈 관리자/ 버전확인 KISA_Crypto_getVersion() - 및·버전·확인 버전값 사용자 (주기적) 자가시험 (암호· 오류코드 자가시험 KISA_Crypto_selftest() - 관리자 알고리즘·시험,· (성공/실패) 소프트웨어· 무결성·시험) KISA_Crypto_encryptInit(); 블록암호· KISA_Crypto_encryptUpdate(); 블록암호· 설정·정보,· 암호문,· KISA_Crypto_encryptFinal(); 암호화 평문,· 오류코드 KISA_Crypto_encrypt(); 키,·IV 관리자/ 블록암호 사용자 KISA_Crypto_decryptInit(); 블록암호·설정· KISA_Crypto_decryptUpdate(); 블록암호 평문, 정보,·암호문,· KISA_Crypto_decryptFinal(); 복호화 오류코드 키,·IV KISA_Crypto_decrypt(); KISA_Crypto_hashInit(); KISA_Crypto_hashUpdate(); 해시함수· 해시함수·설정· 해시값, 관리자/ 해시함수 KISA_Crypto_hashFinal(); 수행 정보,·메시지 오류코드 사용자 KISA_Crypto_hash(); |  |

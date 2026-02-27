@@ -1,0 +1,9 @@
+pymupdf>=1.24.0
+pdfplumber>=0.11.0
+pdfminer.six>=20231228
+pypdf>=4.2.0
+pandas>=2.2.0
+
+# Optional (Phase 2)
+unstructured[pdf]>=0.15.0
+layoutparser>=0.3.4

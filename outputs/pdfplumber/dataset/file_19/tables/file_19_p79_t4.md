@@ -1,0 +1,3 @@
+| 답변 |
+| --- |
+| ▪ “기타 공격에 대한 대응” 항목에서 요구되는 비침투 공격 완화를 위한 대응방법 목록은 다음과 같다. 아래 비침투 공격 대응방법 목록은 최소한의 권고 사항이며, 목록 외의 비침투 공격 대응방법을 적용할 수 있다. 목록 외 대응방법을 적용할 경우 안전성을 입증할 수 있는 참고문헌을 제시해야 한다. 분류 비침투 공격 비침투 공격 대응방법 목록 블록암호 DPA/CPA Masking Method Square & Multiply Always Montgomery Powering Ladder SPA 이산대수/ Side-Channel Atomicity 소인수분해 Fixed Window(non-zero) Method 기반 암호 Exponent Blinding DPA/CPA Message Blinding 공개키 Double & Add Always 암호 Montgomery Powering Ladder SPA Side-Channel Atomicity 타원곡선 Fixed Window(non-zero) Method 기반 암호 Random Projective Coordinate DPA/CPA Point Blinding Scalar Blinding - SPA 대응방법과 DPA/CPA 대응방법은 대응하고자 하는 비침투 공격에 따라 각각 적용되어야 한다. - 목록에 있는 각 대응방법의 참고문헌은 다음과 같다. |

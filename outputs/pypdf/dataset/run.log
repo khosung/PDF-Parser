@@ -1,0 +1,7 @@
+2026-02-27 13:27:44,240 | INFO | pypdf-parser | Start pypdf run: 3 files
+2026-02-27 13:27:44,241 | INFO | pypdf-parser | Processing 1/3 (33.3%) | file_18.pdf
+2026-02-27 13:27:52,583 | INFO | pypdf-parser | Done 1/3 (33.3%) | file_18.pdf | 8.342s
+2026-02-27 13:27:52,583 | INFO | pypdf-parser | Processing 2/3 (66.7%) | file_19.pdf
+2026-02-27 13:27:58,538 | INFO | pypdf-parser | Done 2/3 (66.7%) | file_19.pdf | 5.955s
+2026-02-27 13:27:58,538 | INFO | pypdf-parser | Processing 3/3 (100.0%) | file_8.pdf
+2026-02-27 13:28:01,665 | INFO | pypdf-parser | Done 3/3 (100.0%) | file_8.pdf | 3.127s

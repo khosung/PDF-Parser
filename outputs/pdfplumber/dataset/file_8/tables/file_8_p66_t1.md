@@ -1,0 +1,6 @@
+| 항목 | AS09.10 |
+| --- | --- |
+| 보안요구사항 개요 | 자동화된·SSP·설정·사용·시·부속서·D의·방법·준수 |
+| VE09.10.1 | 모든·자동화된·SSP·설정·방법에·대한·목록과·사용·방법·제시 |
+| 작성 예시 |  |
+| KISACrypto·V1.0·암호모듈은·자동화된·SSP·설정·방법으로서·RSAES·기반의·키·전달·방법과·DH·기반의·키· 합의·방법을·서비스로·제공한다.·다음은·RSAES·기반의·키·전달·방법에·대한·예시이다.·먼저·개체·A에서·개체· B로·세션·암호화·키를·전송하기·위해서는·난수발생기를·이용하여·랜덤한·키를·생성해야·한다.·세션·암호를·위해· SEED-128이·사용된다고·가정하고·16바이트의·랜덤한·값을·생성한다.·다음으로·개체·B의·공개키가·요구되나,· 예시를·위해·개체·B의·개인키와·공개키를·생성한다.·16바이트·세션·암호화·키를·개체·B의·공개키를·이용하여· 암호화한·후·ciphertext·배열에·저장한다.·이를·네트워크를·통하여·개체·B에게·전송한다고·가정한다.·수신된· ciphertext에·대해·개체·B는·자신의·개인키를·이용하여·복호화를·수행하며·이는·recovered·배열에·저장된다.· recovered·배열에·저장된·16바이트·난수값은·개체·A가·전송한·것으로서·향후·개체·A와·개체·B가·통신·세션을· 암호화하는·데·사용되는·키이다. int·rv·=·0; int·lenCipher,·lenPlain; unsigned·char·secretKey[16]; unsigned·char·ciphertext[256]; unsigned·char·recovered[256]; KISA_RSA_publicKey·publicKey; KISA_RSA_privateKey·privateKey; //·난수발생기로·세션·암호화키·생성 KISA_Crypto_drbgRand(secretKey,·16); //·RSAES·키·쌍생성(개체·B) KISA_Crypto_genKeyPair(&publicKey,·&privateKey,·256); //·개체·B의·공개키로·세션·암호화·키·암호화·수행 KISA_Crypto_publicEncrypt(ciphertext,·&lenCipher,·secretKey,·16,·&publicKey); //·ciphertext가·네트워크를·통해·전송되었다고·가정 //·개체·B의·개인키로·복호화 KISA_Crypto_privateDecrypt(recovered,·&lenPlain,·ciphertext,·256,·&privateKey); //·recovered에·들어있는·lenPlain·바이트의·정보를·세션·암호화·키로·사용 |  |

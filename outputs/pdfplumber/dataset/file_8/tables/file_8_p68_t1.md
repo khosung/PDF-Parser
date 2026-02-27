@@ -1,0 +1,4 @@
+| //·DH·키쌍·생성(entity·A) rv·=·KISA_Crypto_DH_genKeyPair(&priKeyA,·&pubKeyA,·params); //·DH·키쌍·생성(entity·B) rv·=·KISA_Crypto_DH_genKeyPair(&priKeyB,·&pubKeyB,·params); //·공유키·계산(entity·A의·개인키와·entity·B의·공개키·이용) rv·=·KISA_Crypto_DH_computeSharedSecret(&secretAB,·&priKeyA,·&pubKeyB,·params); //·공유키·계산(entity·B의·개인키와·entity·A의·공개키·이용) rv·=·KISA_Crypto_DH_computeSharedSecret(&secretBA,·&priKeyB,·&pubKeyA,·params); //·사용된·메모리·해제·및·제로화 KISA_Crypto_DH_freeParam(params); KISA_clear(&priKeyA); KISA_clear(&pubKeyA); KISA_clear(&priKeyB); KISA_clear(&pubKeyB); KISA_clear(&secretAB); KISA_clear(&secretBA); [DH·기반·키·설정·중·공유된·비밀값·생성·예시] |
+| --- |
+| 해설 |
+| RSAES·기반의·키·전달·방법의·예시와·DH·기반의·키·합의·방법·예시를·제공한다.·위의·예시는·RSAES·기반의· 키·전달·방법과·DH·기반의·키·합의·방법의·구현·형식에·따라·달라질·수·있다.·즉·API·형태,·매개변수·전달· 방법에·따라·예제의·형식이·달라질·수·있으며,·개발업체가·개발한·암호·API·형식과·데이터·타입에·따라·적절히· 작성하면·된다.· |

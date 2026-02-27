@@ -1,0 +1,13 @@
+pdf_file,library,parser_name,dataset_name,page_count,extract_time_sec,text_chars,text_coverage_pct,text_consensus_pct,table_count,table_structure_pct,image_count,status,error_message
+file_18.pdf,pdfminer,pdfminer,dataset,197,13.051538793999953,140483,100.000000,91.360659,0,0.0,0,ok,
+file_19.pdf,pdfminer,pdfminer,dataset,105,6.372772769999983,99579,100.000000,94.742942,0,0.0,0,ok,
+file_8.pdf,pdfminer,pdfminer,dataset,120,5.83922511600008,130915,100.000000,97.240817,0,0.0,0,ok,
+file_18.pdf,pdfplumber,pdfplumber,dataset,197,14.947759227999995,116323,82.802190,91.036243,225,68.88888888888889,158,ok,
+file_19.pdf,pdfplumber,pdfplumber,dataset,105,7.807675521000192,78580,78.912220,94.336877,188,35.1063829787234,131,ok,
+file_8.pdf,pdfplumber,pdfplumber,dataset,120,8.015165348999972,122391,93.488905,97.065019,198,69.1919191919192,16,ok,
+file_18.pdf,pymupdf,pymupdf,dataset,197,0.9170650140001726,128822,91.699352,91.354974,0,0.0,123,ok,
+file_19.pdf,pymupdf,pymupdf,dataset,105,1.6949692400000913,81117,81.459946,94.741254,0,0.0,89,ok,
+file_8.pdf,pymupdf,pymupdf,dataset,120,0.7436254870001449,123272,94.161861,97.283570,0,0.0,16,ok,
+file_18.pdf,pypdf,pypdf,dataset,197,8.342090276999897,111557,79.409608,75.000143,0,0.0,123,ok,
+file_19.pdf,pypdf,pypdf,dataset,105,5.954534412999919,78550,78.882094,84.782270,0,0.0,89,ok,
+file_8.pdf,pypdf,pypdf,dataset,120,3.126690205000159,125431,95.811022,96.887857,0,0.0,16,ok,

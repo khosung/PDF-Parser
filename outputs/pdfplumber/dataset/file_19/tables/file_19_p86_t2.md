@@ -1,0 +1,3 @@
+| 배경 |
+| --- |
+| ∎ KCMVP에서 준수하고 있는 GCM 관련 표준은 TTAK.KO-12.0271-Part1/R1 표준으로 IV 사용에 관한 별도의 제약사항을 명시하지 않고 있다. 그러나 NIST는 안전하지 않은 IV 사용에 따른 GCM 운영모드의 취약점을 고려하여 GCM 사용 시 주의사항을 NIST SP 800-38D에 명시하고 있다. ※ “forbidden attack”, Authentication Failures in NIST version of GCM ∘ NIST SP 800-38D의 IV 요구사항 Section 8 Uniqueness Requirement on IVs and Keys The IVs in GCM must fulfill the following “uniqueness” requirement: The probability that the authenticated encryption function ever will be invoked with the same IV and the same key on two(or more) distinct sets of input data shall be no greater than . ∎ 현재 검증기준에는 별도의 방법이 안내되어 있지 않다. |

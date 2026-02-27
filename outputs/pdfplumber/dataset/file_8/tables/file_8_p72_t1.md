@@ -1,0 +1,4 @@
+| 1.RSAES/RSA-PSS·공개키에·대한·제로화:·KISA_Crypto_RSA_publicKey_Zeroize() 2.RSAES/RSA-PSS·개인키에·대한·제로화:·KISA_Crypto_RSA_privateKey_Zeroize() 3.ECDSA·공개키에·대한·제로화:·KISA_Crypto_EC_publicKey_Zeroize() 4.ECDSA·개인키에·대한·제로화:·KISA_Crypto_EC_privateKey_Zeroize() 5.DH·파라미터에·대한·제로화:·KISA_Crypto_DH_param_Zeroize() 6.DH·공개키에·대한·제로화:·KISA_Crypto_DH_publicKey_Zeroize() 7.DH·개인키에·대한·제로화:·KISA_Crypto_DH_privateKey_Zeroize() 8.난수에·대한·제로화:·KISA_Crypto_Zeroize() |
+| --- |
+| 해설 |
+| 이·시험항목에서는·암호모듈에서·적용하고·있는·제로화·방법에·대해·명세할·것을·요구한다.·암호모듈에서· 적용하고·있는·절차적·제로화·방법과·운영적·제로화·방법에·대해·명세한다.·추가로·제로화·방법이·적용된· 소스코드의·위치까지·제공하면·명확하게·제로화에·대한·증빙이·가능하다. |
