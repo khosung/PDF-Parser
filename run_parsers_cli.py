@@ -1,11 +1,13 @@
 import argparse
+import importlib.util
 import logging
-import subprocess
 import sys
 from pathlib import Path
 
 
 LOGGER = logging.getLogger("run-parsers-cli")
+
+PARSERS = ["pdfminer", "pdfplumber", "pymupdf", "pypdf"]
 
 
 def setup_logging() -> None:
@@ -16,78 +18,61 @@ def setup_logging() -> None:
     )
 
 
-def discover_parser_scripts(parser_dir: Path) -> list[Path]:
-    scripts = []
-    for script in sorted(parser_dir.rglob("*.py")):
-        if script.name.startswith("_"):
-            continue
-        if script.name == "__init__.py":
-            continue
-        scripts.append(script)
-    return scripts
-
-
-def run_script(python_exec: str, script: Path, input_dir: Path, output_root: Path) -> int:
-    parser_name = script.stem.replace("_parser", "")
-    dataset_name = input_dir.resolve().name
-    output_dir = output_root / parser_name / dataset_name
-    cmd = [
-        python_exec,
-        str(script),
-        "--input-dir",
-        str(input_dir),
-        "--output-dir",
-        str(output_dir),
-    ]
-    LOGGER.info("Running parser: %s (dataset=%s)", parser_name, dataset_name)
-    LOGGER.info("Command: %s", " ".join(cmd))
-    result = subprocess.run(cmd, capture_output=True, text=True)
-    if result.stdout:
-        LOGGER.info("[%s][stdout]\n%s", parser_name, result.stdout)
-    if result.stderr:
-        LOGGER.warning("[%s][stderr]\n%s", parser_name, result.stderr)
-    if result.returncode != 0:
-        LOGGER.error("Parser failed: %s (code=%s)", parser_name, result.returncode)
-    else:
-        LOGGER.info("Parser finished: %s", parser_name)
-    return result.returncode
+def load_parser(parser_dir: Path, name: str):
+    script = parser_dir / f"{name}_parser.py"
+    if not script.exists():
+        raise FileNotFoundError(f"Parser script not found: {script}")
+    spec = importlib.util.spec_from_file_location(name, script)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run all parser scripts under a directory.")
-    parser.add_argument("--parsers-dir", type=Path, default=Path("parser"), help="Directory containing parser python scripts")
-    parser.add_argument("--input-dir", type=Path, default=Path("dataset"), help="Directory containing input PDFs")
-    parser.add_argument("--output-root", type=Path, default=Path("outputs"), help="Root output directory")
-    parser.add_argument("--python", type=str, default=sys.executable, help="Python executable path")
-    parser.add_argument("--fail-fast", action="store_true", help="Stop immediately if one parser fails")
+    parser = argparse.ArgumentParser(description="Run all PDF parsers and save Markdown output to ./res/")
+    parser.add_argument("input", type=Path, help="PDF file or directory of PDFs")
+    parser.add_argument("--parsers-dir", type=Path, default=Path("parser"), help="Directory containing parser scripts")
+    parser.add_argument("--output-root", type=Path, default=Path("res"), help="Root output directory (default: ./res)")
     args = parser.parse_args()
 
     setup_logging()
 
-    if not args.parsers_dir.exists():
-        raise FileNotFoundError(f"parser directory not found: {args.parsers_dir}")
-    if not args.input_dir.exists():
-        raise FileNotFoundError(f"input-dir not found: {args.input_dir}")
+    input_path: Path = args.input.resolve()
+    if input_path.is_file():
+        pdf_files = [input_path]
+    elif input_path.is_dir():
+        pdf_files = sorted(input_path.glob("*.pdf"))
+    else:
+        raise FileNotFoundError(f"Input not found: {input_path}")
 
-    scripts = discover_parser_scripts(args.parsers_dir)
-    if not scripts:
-        raise FileNotFoundError(f"No python parser scripts found under: {args.parsers_dir}")
+    if not pdf_files:
+        raise FileNotFoundError(f"No PDF files found: {input_path}")
 
-    args.output_root.mkdir(parents=True, exist_ok=True)
+    LOGGER.info("Found %d PDF file(s): %s", len(pdf_files), [p.name for p in pdf_files])
 
     failed = []
-    for script in scripts:
-        code = run_script(args.python, script, args.input_dir, args.output_root)
-        if code != 0:
-            failed.append(script.name)
-            if args.fail_fast:
-                break
+    for name in PARSERS:
+        output_dir = args.output_root / name
+        output_dir.mkdir(parents=True, exist_ok=True)
+        LOGGER.info("=" * 60)
+        LOGGER.info("Running parser: %s  →  %s", name, output_dir)
+        try:
+            module = load_parser(args.parsers_dir, name)
+            module.run(pdf_files, output_dir)
+            LOGGER.info("Parser finished: %s", name)
+        except Exception as e:
+            LOGGER.error("Parser failed: %s — %s", name, e)
+            failed.append(name)
 
+    LOGGER.info("=" * 60)
     if failed:
-        raise SystemExit(f"Failed parsers: {', '.join(failed)}")
-
-    LOGGER.info("All parsers executed successfully.")
+        LOGGER.error("Failed parsers: %s", ", ".join(failed))
+        sys.exit(1)
+    else:
+        LOGGER.info("All parsers completed successfully.")
+        LOGGER.info("Output saved to: %s", args.output_root.resolve())
 
 
 if __name__ == "__main__":
     main()
+

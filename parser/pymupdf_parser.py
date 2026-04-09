@@ -25,13 +25,6 @@ def setup_logging(output_dir: Path) -> None:
     )
 
 
-def resolve_output_dir(input_dir: Path, output_dir: Path) -> Path:
-    dataset_name = input_dir.resolve().name
-    if output_dir.resolve().name == dataset_name:
-        return output_dir
-    return output_dir / dataset_name
-
-
 def write_reports(output_dir: Path, rows: list[dict]) -> None:
     csv_path = output_dir / "benchmark_results.csv"
     md_path = output_dir / "benchmark_results.md"
@@ -74,34 +67,32 @@ def write_reports(output_dir: Path, rows: list[dict]) -> None:
     md_path.write_text("\n".join(lines), encoding="utf-8")
 
 
-def run(input_dir: Path, output_dir: Path) -> None:
+def run(pdf_files: list[Path], output_dir: Path) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
-
-    pdf_files = sorted(input_dir.glob("*.pdf"))
-    if not pdf_files:
-        raise FileNotFoundError(f"No PDF files found in {input_dir}")
 
     rows: list[dict] = []
     total_files = len(pdf_files)
     LOGGER.info("Start PyMuPDF run: %d files", total_files)
+
     for idx, pdf_path in enumerate(pdf_files, start=1):
         LOGGER.info("Processing %s | %s", progress_label(idx, total_files), pdf_path.name)
         start = time.perf_counter()
         try:
             doc = fitz.open(pdf_path)
-            text_parts = []
+            image_dir = output_dir / f"{pdf_path.stem}_images"
+            image_dir.mkdir(parents=True, exist_ok=True)
+
+            md_parts: list[str] = []
             image_count = 0
-            per_pdf_root = output_dir / pdf_path.stem
-            per_pdf_text_dir = per_pdf_root / "texts"
-            per_pdf_image_dir = per_pdf_root / "images"
-            per_pdf_tables_dir = per_pdf_root / "tables"
-            per_pdf_text_dir.mkdir(parents=True, exist_ok=True)
-            per_pdf_image_dir.mkdir(parents=True, exist_ok=True)
-            per_pdf_tables_dir.mkdir(parents=True, exist_ok=True)
 
             for page_idx, page in enumerate(doc, start=1):
-                text_parts.append(page.get_text("text") or "")
-                for image_idx, image_info in enumerate(page.get_images(full=True), start=1):
+                page_text = (page.get_text("text") or "").strip()
+                page_lines: list[str] = [f"## Page {page_idx}", ""]
+                if page_text:
+                    page_lines.append(page_text)
+                    page_lines.append("")
+
+                for image_info in page.get_images(full=True):
                     xref = image_info[0]
                     img_dict = doc.extract_image(xref)
                     img_bytes = img_dict.get("image", b"")
@@ -109,13 +100,18 @@ def run(input_dir: Path, output_dir: Path) -> None:
                     if not img_bytes:
                         continue
                     image_count += 1
-                    out_img = per_pdf_image_dir / f"{pdf_path.stem}_p{page_idx}_i{image_idx}.{ext}"
-                    out_img.write_bytes(img_bytes)
+                    img_filename = f"{image_count:03d}.{ext}"
+                    (image_dir / img_filename).write_bytes(img_bytes)
+                    rel = f"{pdf_path.stem}_images/{img_filename}"
+                    page_lines.append(f"![Image {image_count}]({rel})")
+
+                md_parts.append("\n".join(page_lines))
 
             page_count = doc.page_count
             doc.close()
-            text = "\n".join(text_parts)
-            (per_pdf_text_dir / f"{pdf_path.stem}.txt").write_text(text, encoding="utf-8")
+
+            md_text = "\n\n".join(md_parts)
+            (output_dir / f"{pdf_path.stem}.md").write_text(md_text, encoding="utf-8")
             elapsed = time.perf_counter() - start
             LOGGER.info("Done %s | %s | %.3fs", progress_label(idx, total_files), pdf_path.name, elapsed)
 
@@ -125,7 +121,7 @@ def run(input_dir: Path, output_dir: Path) -> None:
                     "library": "pymupdf",
                     "page_count": page_count,
                     "extract_time_sec": elapsed,
-                    "text_chars": len(text),
+                    "text_chars": len(md_text),
                     "text_coverage_pct": 0.0,
                     "text_consensus_pct": 0.0,
                     "table_count": 0,
@@ -158,15 +154,25 @@ def run(input_dir: Path, output_dir: Path) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="PyMuPDF extraction benchmark")
-    parser.add_argument("--input-dir", type=Path, required=True)
-    parser.add_argument("--output-dir", type=Path, default=Path("outputs") / "pymupdf")
+    parser = argparse.ArgumentParser(description="PyMuPDF PDF to Markdown converter")
+    parser.add_argument("input", type=Path, help="PDF file or directory of PDFs")
+    parser.add_argument("--output-dir", type=Path, default=Path("res") / "pymupdf")
     args = parser.parse_args()
 
-    args.output_dir = resolve_output_dir(args.input_dir, args.output_dir)
+    input_path: Path = args.input
+    if input_path.is_file():
+        pdf_files = [input_path]
+    elif input_path.is_dir():
+        pdf_files = sorted(input_path.glob("*.pdf"))
+    else:
+        raise FileNotFoundError(f"Input not found: {input_path}")
 
+    if not pdf_files:
+        raise FileNotFoundError(f"No PDF files found: {input_path}")
+
+    args.output_dir.mkdir(parents=True, exist_ok=True)
     setup_logging(args.output_dir)
-    run(args.input_dir, args.output_dir)
+    run(pdf_files, args.output_dir)
 
 
 if __name__ == "__main__":
